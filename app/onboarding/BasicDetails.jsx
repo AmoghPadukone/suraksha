@@ -9,7 +9,6 @@ import CustomBlackButton from "../../components/customBlackButton";
 import LottieView from "lottie-react-native";
 import Checkbox from "../../components/Checkbox";
 import IconTextInput from "../../components/IconTextInput";
-import PlanCard from "../../components/onboarding/PlanCard";
 import OTPinput from "../../components/OTPinput";
 import { images } from "../../constants";
 
@@ -22,7 +21,7 @@ export default function Plans() {
   return (
     <SafeAreaView className=" bg-softWhite h-full  w-full">
       <View
-        className="my-[10%] flex justify-around"
+        className="my-[10%] flex justify-between  "
         contentContainerStyle={{ height: "100%", width: "100%" }}
       >
         <View className=" ">
@@ -33,17 +32,17 @@ export default function Plans() {
               resizeMode="contain"
             />
           </View>
-          <Text className="text-center font-pmedium text-[18px] mt-4 px-[5%] mx-auto">
+          <Text className="text-center font-pmedium text-[22px] mt-4 px-[5%] mx-auto">
             Unlock Your Peace of Mind - It's Easier Than You Think!
           </Text>
         </View>
-        <View className="flex h-[70%] ">
-          <PlanCard />
+        <View className="  flex h-[70%] ">
+          <Text>plans</Text>
         </View>
-        <View className="mt-5  ">
+        <View className="  ">
           <CustomBlackButton
             handlePress={() => {
-              router.push("onboarding/BasicDetails");
+              router.replace("onboarding/BasicDetails");
             }}
             title="Continue"
           />

@@ -4,14 +4,15 @@ import { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomBlackButton from "../components/customBlackButton";
+import CustomBlackButton from "../../components/customBlackButton";
 
 import LottieView from "lottie-react-native";
-import Checkbox from "../components/Checkbox";
-import IconTextInput from "../components/IconTextInput";
-import { images } from "../constants";
+import Checkbox from "../../components/Checkbox";
+import IconTextInput from "../../components/IconTextInput";
+import OTPinput from "../../components/OTPinput";
+import { images } from "../../constants";
 
-export default function App() {
+export default function GetOTP() {
   const [loading, setLoading] = useState(false);
   const [isLoggedin, setIsLoggedin] = useState(false);
   if (!loading && isLoggedin) {
@@ -42,34 +43,33 @@ export default function App() {
             </View>
             <View className="w-[90%]   ">
               <View className="mb-10">
-                <IconTextInput
+                {/* <IconTextInput
                   enterKeyHint="enter"
                   inputMode="tel"
                   icon="call"
                   keyboardType="phone-pad"
                   inputType="default"
                   placeholder="Enter your phone to get started"
-                />
-                <View className="ml-3 mt-[-10px]">
-                  <Checkbox text="Accept our privacy policy and EULA" />
-                </View>
+                /> */}
+                <OTPinput />
+                <View className="ml-3 mt-[-10px]"></View>
               </View>
               <CustomBlackButton
                 handlePress={() => {
-                  router.push("onboarding/getOTP");
+                  router.replace("onboarding/plans");
                 }}
-                title="Get OTP"
+                title="Continue"
               />
             </View>
           </View>
           {/* lottie file: */}
           <View className="w-full  h-[40%] ">
-            <LottieView
+            {/* <LottieView
               autoPlay
               loop
               style={{ height: "80%" }}
-              source={require("../assets/lottie/0heU1IzlcA.json")}
-            />
+              source={require("../../assets/lottie/0heU1IzlcA.json")}
+            /> */}
           </View>
         </View>
       </View>

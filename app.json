@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "suraksha",
+    "scheme": "suraksha",
     "slug": "suraksha",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
+    "plugins": [[
+      "expo-font",
+      {
+        "fonts": ["./assets/fonts/Poppins-Regular.ttf"]
+      }
+    ],
       "expo-router"
     ]
   }

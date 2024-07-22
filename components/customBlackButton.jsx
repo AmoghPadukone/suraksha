@@ -1,10 +1,29 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
-export default function customBlackButton() {
+const CustomBlackButton = ({
+  title,
+  handlePress,
+  containerStyles,
+  textStyles,
+  isLoading,
+}) => {
   return (
-    <View>
-      <Text>customBlackButton</Text>
-    </View>
+    <TouchableOpacity
+      onPress={handlePress}
+      activeOpacity={0.7}
+      className={`bg-[#000] w-[80%] mx-auto rounded-[12px] min-h-[62px] justify-center items-center ${containerStyles} ${
+        isLoading ? "opacity-50" : ""
+      }`}
+      disabled={isLoading}
+    >
+      <Text
+        className={`text-white font-semibold text-lg font-psemibold  ${textStyles}`}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
-}
+};
+
+export default CustomBlackButton;
