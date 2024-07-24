@@ -43,7 +43,7 @@ export default function Plans() {
         <View className="mt-5  ">
           <CustomBlackButton
             handlePress={() => {
-              router.push("onboarding/BasicDetails");
+              router.push("onboarding/Registration");
             }}
             title="Continue"
           />

@@ -2,6 +2,9 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { PaperProvider } from "react-native-paper";
+import { customTheme } from "../theme";
+
 SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -37,17 +40,25 @@ const RootLayout = () => {
     return null;
   }
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+    <PaperProvider theme={customTheme}>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-      <Stack.Screen name="onboarding/getOTP" options={{ headerShown: false }} />
-      <Stack.Screen name="onboarding/plans" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="onboarding/BasicDetails"
-        options={{ headerShown: false }}
-      />
-    </Stack>
+        <Stack.Screen
+          name="onboarding/getOTP"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/plans"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onboarding/Registration"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+    </PaperProvider>
   );
 };
 
