@@ -125,7 +125,7 @@ const Registration = () => {
             finishBtnText="Complete"
             onPrevious={this.onPrevStep}
             onSubmit={() => {
-              router.push("onboarding/liabilities");
+              router.push("/home");
             }}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
