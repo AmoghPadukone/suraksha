@@ -1,23 +1,21 @@
-import { Field, Form, Formik, FormikProps } from "formik";
-import React, { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native"; // Import ScrollView
+import { FieldArray, Formik } from "formik";
+import React from "react";
+import { ScrollView, Text, View } from "react-native";
 import { Button, Divider } from "react-native-paper";
-import { images } from "../../constants";
 import MTextInput from "../MTextInput";
-import CustomBlackButton from "../customBlackButton";
 
-const BeneficiariesForm = () => {
-  const [formData, setFormData] = useState({
-    adhaar: "",
-    pan: "",
-    phone: "",
-  });
+const BeneficiariesForm = ({ onValuesChange }) => {
+  const initialValues = {
+    beneficiaries: [
+      {
+        name: "",
+        email: "",
+      },
+    ],
+  };
 
-  const handleTextChange = (name, value) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleTextChange = (name, value, setFieldValue) => {
+    setFieldValue(name, value);
   };
 
   return (
@@ -30,49 +28,68 @@ const BeneficiariesForm = () => {
       </View>
       <Divider bold className="my-3" />
 
-      {/* Wrap the inputs with ScrollView */}
-      <ScrollView className="max-h-[100%] mt-2">
+      <ScrollView className="max-h-[85%] mt-2">
         <Formik
-          initialValues={{ email: "" }}
-          onSubmit={(values) => console.log(values)}
+          initialValues={initialValues}
+          onSubmit={() => {}} // We don't need this anymore
         >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View>
-              <MTextInput
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-                label="Adhaar Number"
-                iconName="smart-card"
-                placeholder="Enter your Adhaar Number"
-              />
-            </View>
-          )}
+          {({ values, setFieldValue }) => {
+            // Call onValuesChange whenever values change
+            React.useEffect(() => {
+              onValuesChange(values.beneficiaries);
+            }, [values.beneficiaries]);
+
+            return (
+              <View>
+                <FieldArray name="beneficiaries">
+                  {({ remove, push }) => (
+                    <View>
+                      {values.beneficiaries.map((beneficiary, index) => (
+                        <View key={index}>
+                          <MTextInput
+                            label={`Beneficiary Name ${index + 1}`}
+                            iconName="smart-card"
+                            placeholder="Enter Beneficiary's Name"
+                            onChangeText={(value) =>
+                              handleTextChange(
+                                `beneficiaries[${index}].name`,
+                                value,
+                                setFieldValue
+                              )
+                            }
+                            value={beneficiary.name}
+                          />
+                          <MTextInput
+                            label={`Beneficiary Email ${index + 1}`}
+                            iconName="email"
+                            placeholder="Enter Beneficiary's Email"
+                            onChangeText={(value) =>
+                              handleTextChange(
+                                `beneficiaries[${index}].email`,
+                                value,
+                                setFieldValue
+                              )
+                            }
+                            value={beneficiary.email}
+                          />
+                          <Button mode="outlined" onPress={() => remove(index)}>
+                            Remove
+                          </Button>
+                        </View>
+                      ))}
+                      <Button
+                        mode="contained"
+                        onPress={() => push({ name: "", email: "" })}
+                      >
+                        Add Beneficiary
+                      </Button>
+                    </View>
+                  )}
+                </FieldArray>
+              </View>
+            );
+          }}
         </Formik>
-        {/* <View style={{ gap: 20 }} className="flex">
-          <View>
-            <MTextInput
-              label="Adhaar Number"
-              iconName="smart-card"
-              placeholder="Enter your Adhaar Number"
-              onChangeText={(value) => handleTextChange("adhaar", value)}
-              value={formData.name}
-            />
-            <Button
-              className=" ml-auto mt-3 bg-black text-white font-pmedium w-[120px]"
-              mode="elevated"
-            >
-              Get OTP
-            </Button>
-          </View>
-          <MTextInput
-            label="PAN Number"
-            iconName="credit-card"
-            placeholder="Enter your PAN Number"
-            onChangeText={(value) => handleTextChange("email", value)}
-            value={formData.email}
-          />
-        </View> */}
       </ScrollView>
     </View>
   );

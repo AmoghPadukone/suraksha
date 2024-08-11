@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { useState } from "react";
 import { Text, View } from "react-native";
 import { ProgressStep, ProgressSteps } from "react-native-progress-steps";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,11 +11,19 @@ import RegistrationFinishScreen from "../../components/onboarding/RegistrationFi
 import ResidenceForm from "../../components/onboarding/ResidenceForm";
 
 const Registration = () => {
+  const [beneficiariesData, setBeneficiariesData] = useState([]);
+  const handleBeneficiariesSubmit = (data) => {
+    setBeneficiariesData(data);
+    console.log(data);
+    // You can also call onNextStep here if you want to automatically move to the next step
+    onNextStep();
+  };
   const navigationOptions = {
     header: null,
   };
   onNextStep = () => {
     console.log("called next step");
+    console.log("Beneficiaries data:", beneficiariesData);
   };
 
   onPrevStep = () => {
@@ -23,6 +32,10 @@ const Registration = () => {
 
   onSubmitSteps = () => {
     console.log("called on submit step.");
+  };
+
+  const handleBeneficiariesChange = (data) => {
+    setBeneficiariesData(data);
   };
 
   const defaultScrollViewProps = {
@@ -109,14 +122,14 @@ const Registration = () => {
           <ProgressStep
             label="Beneficiary"
             scrollable={false}
-            onNext={this.onNextStep}
-            onPrevious={this.onPrevStep}
+            onNext={onNextStep}
+            onPrevious={onPrevStep}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
             previousBtnTextStyle={buttonTextStyle}
           >
             <FormContainer>
-              <BeneficiariesForm />
+              <BeneficiariesForm onValuesChange={handleBeneficiariesChange} />
             </FormContainer>
           </ProgressStep>
           <ProgressStep

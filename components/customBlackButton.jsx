@@ -3,6 +3,7 @@ import { Text, TouchableOpacity } from "react-native";
 
 const CustomBlackButton = ({
   title,
+  type,
   handlePress,
   containerStyles,
   textStyles,
