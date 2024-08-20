@@ -57,6 +57,23 @@ const RootLayout = () => {
           name="onboarding/Registration"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="profile/myAccount"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="profile/subscription"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="profile/orderHistory"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="profile/payments"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="profile/setting" options={{ headerShown: false }} />
       </Stack>
       {/* <Stack.Screen name="+not-found" /> */}
     </PaperProvider>

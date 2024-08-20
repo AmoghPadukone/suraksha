@@ -28,7 +28,7 @@ const RegistrationFinishScreen = () => {
           We are getting things set-up for you :)
         </Text>
         <Text className="text-[14px] font-pmedium pt-3 text-center">
-          we securely store your data on our encrypted databses{" "}
+          we securely store your data on our encrypted databses
         </Text>
       </View>
       {/* <View className="flex">

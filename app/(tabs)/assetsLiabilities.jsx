@@ -1,7 +1,12 @@
 import * as React from "react";
-import { Text, View, useWindowDimensions } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { SceneMap, TabView } from "react-native-tab-view";
 import AssetTabContent from "../../components/Tabs/Assets/AssetTabContent";
 import LiabilitiesTabContent from "../../components/Tabs/Liabilites/LiabilitiesTabContent";
 
@@ -15,69 +20,77 @@ const renderScene = SceneMap({
 });
 
 const renderTabBar = (props) => {
-  // const inputRange = props.navigationState.routes.map((x, i) => i);
-  // var width = Dimensions.get("window").width;
+  const { index } = props.navigationState;
+
   return (
-    <View>
+    <View
+      style={{
+        flexDirection: "row",
+        backgroundColor: "#F2F2F2",
+        justifyContent: "center",
+        paddingBottom: 8,
+      }}
+    >
       {props.navigationState.routes.map((route, i) => {
+        const isActive = index === i;
         return (
-          <View key={route.key} onPress={() => setIndex(i)}>
-            <View
+          <TouchableOpacity
+            key={route.key}
+            onPress={() => props.jumpTo(route.key)}
+            style={{
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              alignItems: "center",
+            }}
+          >
+            <Text
               style={{
-                margin: 0,
+                fontFamily: "Poppins-Regular",
+                fontSize: 16,
+                color: isActive ? "#333333" : "#888888",
+                textAlign: "center",
               }}
             >
-              <Text
+              {route.title}
+            </Text>
+            {isActive && (
+              <View
                 style={{
-                  textAlign: "center",
-                  margin: 0,
-                  paddingVertical: 12,
-                  // width: width * 0.5,
-                  fontFamily: "Outfit-Regular",
-                  fontSize: 17,
+                  height: 2,
+                  backgroundColor: "#FDA51D",
+                  width: 30,
+                  marginTop: 4,
+                  borderRadius: 1,
                 }}
-              >
-                {route.title}
-              </Text>
-            </View>
-            <View
-              style={{
-                shadowColor: "#rgba(247, 217, 190, 80)",
-                shadowOpacity: 0.2,
-                shadowRadius: 2,
-                shadowOffset: { width: 0, height: 2 },
-                elevation: 4,
-                borderColor: "#F4BE8D",
-                borderWidth: 4,
-                // width: width,
-                // backgroundColor: '#fff',
-                height: 8,
-              }}
-            />
-          </View>
+              />
+            )}
+          </TouchableOpacity>
         );
       })}
     </View>
   );
 };
-export default function assetsLiabilities() {
+
+export default function AssetsLiabilities() {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "first", title: "First" },
-    { key: "second", title: "Second" },
+    { key: "first", title: "Assets" },
+    { key: "second", title: "Liabilities" },
   ]);
 
   return (
-    <TabView
-      renderTabBar={renderTabBar}
-      title="Assets & Liabilities"
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      // initialLayout={{ width: layout.width }}
-      style={{ backgroundColor: "#F7D5B8" }}
-    />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F2F2F2" }}>
+      <TabView
+        renderTabBar={renderTabBar}
+        title="Assets & Liabilities"
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+        style={{ backgroundColor: "#F2F2F2", marginTop: 10 }}
+      />
+    </SafeAreaView>
   );
 }

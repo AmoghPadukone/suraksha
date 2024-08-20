@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 const FormContainer = ({ children }) => {
   return (
     <View
-      className="h-full m-5 rounded-[16px] bg-white p-5 "
+      className="h-full m-5  rounded-[16px] bg-white "
       style={styles.shadow}
     >
       {children}

@@ -1,21 +1,39 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Redirect, Tabs } from "expo-router";
+import { BlurView } from "@react-native-community/blur"; // Import the BlurView component
+import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image, Text, View } from "react-native";
-import home from "./home";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
-    <View className="items-center justify-center ">
+    <View style={styles.tabIconContainer}>
       <Ionicons name={icon} size={24} color={color} />
-
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
+        style={[
+          styles.tabLabel,
+          { color: color, fontWeight: focused ? "600" : "400" },
+        ]}
       >
         {name}
       </Text>
+    </View>
+  );
+};
+
+const CustomTabBar = (props) => {
+  return (
+    <View style={styles.tabBarContainer}>
+      <BlurView
+        style={styles.tabBar}
+        blurType="light"
+        blurAmount={10}
+        reducedTransparencyFallbackColor="white"
+      >
+        {props.children}
+      </BlurView>
     </View>
   );
 };
@@ -28,16 +46,19 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#FFA001",
           tabBarInactiveTintColor: "rgba(0, 0, 0, 0.6)",
-
           tabBarStyle: {
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backgroundColor: "white", // Make background transparent to show blur effect
+
             borderWidth: 0,
             height: 60,
             position: "absolute",
             elevation: 0,
-            backdropFilter: "blur(10px)", // Add backdrop filter for blur effect
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Add box shadow for glassmorphic effect
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
           },
+          tabBar: (props) => <CustomTabBar {...props} />, // Use the custom TabBar component
         }}
       >
         <Tabs.Screen
@@ -47,7 +68,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={"home-sharp"}
+                icon="home-sharp"
                 color={color}
                 name="Home"
                 focused={focused}
@@ -55,15 +76,14 @@ const TabsLayout = () => {
             ),
           }}
         />
-
         <Tabs.Screen
           name="assetsLiabilities"
           options={{
-            tabBarLabel: "assetsLiabilities",
+            tabBarLabel: "Assets & Liabilities",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={"wallet"}
+                icon="wallet"
                 color={color}
                 name="Assets & Liabilities"
                 focused={focused}
@@ -71,7 +91,6 @@ const TabsLayout = () => {
             ),
           }}
         />
-
         <Tabs.Screen
           name="profile"
           options={{
@@ -79,7 +98,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={"person-sharp"}
+                icon="person-sharp"
                 color={color}
                 name="Profile"
                 focused={focused}
@@ -92,5 +111,28 @@ const TabsLayout = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  tabBarContainer: {
+    width: screenWidth,
+    position: "absolute",
+    bottom: 0,
+  },
+  tabBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: 60,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  tabIconContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tabLabel: {
+    fontSize: 12,
+  },
+});
 
 export default TabsLayout;

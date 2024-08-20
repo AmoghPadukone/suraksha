@@ -9,9 +9,16 @@ import FormContainer from "../../components/onboarding/FormContainer";
 import IDForm from "../../components/onboarding/IDForm";
 import RegistrationFinishScreen from "../../components/onboarding/RegistrationFinishScreen";
 import ResidenceForm from "../../components/onboarding/ResidenceForm";
+import useFormStore from "../../store/formStore/store";
 
 const Registration = () => {
+  const { formData, setFormData, currentStep, setCurrentStep } = useFormStore();
+
   const [beneficiariesData, setBeneficiariesData] = useState([]);
+
+  const handleStepChange = (step) => {
+    setCurrentStep(step);
+  };
   const handleBeneficiariesSubmit = (data) => {
     setBeneficiariesData(data);
     console.log(data);
@@ -22,8 +29,11 @@ const Registration = () => {
     header: null,
   };
   onNextStep = () => {
-    console.log("called next step");
-    console.log("Beneficiaries data:", beneficiariesData);
+    console.log("called ne22xt step");
+  };
+  onBeneficiarySubmit = () => {
+    console.log("called eweqwqw step");
+    console.log(beneficiariesData);
   };
 
   onPrevStep = () => {
@@ -79,57 +89,75 @@ const Registration = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ height: "85%", marginBottom: "50px" }}>
-        <ProgressSteps {...progressStepsStyle}>
+        <ProgressSteps
+          {...progressStepsStyle}
+          currentStep={useFormStore((state) => state.currentStep)}
+          onChange={handleStepChange}
+        >
           <ProgressStep
             scrollable={false}
             label="Basic"
-            onNext={this.onNextStep}
-            onPrevious={this.onPrevStep}
+            onNext={() => handleStepChange(1)}
+            onPrevious={() => handleStepChange(0)}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
             previousBtnTextStyle={buttonTextStyle}
           >
             <FormContainer>
-              <BasicForm />
+              <BasicForm
+                initialValues={formData.basic}
+                onValuesChange={(values) => setFormData("basic", values)}
+              />
             </FormContainer>
           </ProgressStep>
           <ProgressStep
             label="ID"
+            onNext={() => handleStepChange(2)}
+            onPrevious={() => handleStepChange(0)}
             scrollable={false}
-            onNext={this.onNextStep}
-            onPrevious={this.onPrevStep}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
             previousBtnTextStyle={buttonTextStyle}
           >
             <FormContainer>
-              <IDForm />
+              <IDForm
+                initialValues={formData.id}
+                onValuesChange={(values) => setFormData("id", values)}
+              />
             </FormContainer>
           </ProgressStep>
           <ProgressStep
             label="Residence"
+            onNext={() => handleStepChange(3)}
+            onPrevious={() => handleStepChange(1)}
             scrollable={false}
-            onNext={this.onNextStep}
-            onPrevious={this.onPrevStep}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
             previousBtnTextStyle={buttonTextStyle}
           >
             <FormContainer>
-              <ResidenceForm />
+              <ResidenceForm
+                initialValues={formData.residence}
+                onValuesChange={(values) => setFormData("residence", values)}
+              />
             </FormContainer>
           </ProgressStep>
           <ProgressStep
-            label="Beneficiary"
             scrollable={false}
-            onNext={onNextStep}
-            onPrevious={onPrevStep}
+            label="Beneficiary"
+            onNext={() => handleStepChange(4)}
+            onPrevious={() => handleStepChange(2)}
             viewProps={defaultScrollViewProps}
             nextBtnTextStyle={buttonTextStyle}
             previousBtnTextStyle={buttonTextStyle}
           >
             <FormContainer>
-              <BeneficiariesForm onValuesChange={handleBeneficiariesChange} />
+              <BeneficiariesForm
+                initialValues={formData.beneficiaries}
+                onValuesChange={(values) =>
+                  setFormData("beneficiaries", values)
+                }
+              />
             </FormContainer>
           </ProgressStep>
           <ProgressStep
@@ -138,6 +166,8 @@ const Registration = () => {
             finishBtnText="Complete"
             onPrevious={this.onPrevStep}
             onSubmit={() => {
+              const allFormData = formData;
+              console.log("Final Form Data:", allFormData);
               router.push("/home");
             }}
             viewProps={defaultScrollViewProps}

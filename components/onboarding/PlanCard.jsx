@@ -47,7 +47,7 @@ const PlanCard = ({
   ],
 }) => {
   return (
-    <View className="border-2 w-[300px] h-full mx-auto px-8 py-14 rounded-[16px] m-2">
+    <View className="border-2 w-[300px] h-[90%] mx-auto px-8 py-14 rounded-[16px] m-2">
       <View>
         <Text className="text-20 font-psemibold">{title}</Text>
         <Text className="text-[16px] font-pregular">{subtitle}</Text>
@@ -81,7 +81,7 @@ const PlansScrollView = () => {
     <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={true}
-      className="py-5"
+      className="py-1"
     >
       {plans.map((plan, index) => (
         <PlanCard

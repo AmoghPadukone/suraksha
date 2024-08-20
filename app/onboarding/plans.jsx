@@ -1,7 +1,7 @@
 import { Link, Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ScrollView, Text, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomBlackButton from "../../components/customBlackButton";
@@ -14,6 +14,8 @@ import OTPinput from "../../components/OTPinput";
 import { images } from "../../constants";
 
 export default function Plans() {
+  const { width, height } = Dimensions.get("window");
+
   const [loading, setLoading] = useState(false);
   const [isLoggedin, setIsLoggedin] = useState(false);
   if (!loading && isLoggedin) {
@@ -37,7 +39,7 @@ export default function Plans() {
             Unlock Your Peace of Mind - It's Easier Than You Think!
           </Text>
         </View>
-        <View className="flex h-[70%] ">
+        <View className="flex h-[75%] ">
           <PlanCard />
         </View>
         <View className="mt-5  ">
